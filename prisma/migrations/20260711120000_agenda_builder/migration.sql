@@ -1,0 +1,11 @@
+ALTER TABLE "AgendaItem" ADD COLUMN "summary" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "AgendaItem" ADD COLUMN "presenter" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "AgendaItem" ADD COLUMN "responsibleDepartment" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "AgendaItem" ADD COLUMN "estimatedDuration" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "AgendaItem" ADD COLUMN "decisionType" TEXT NOT NULL DEFAULT 'INFORMATION';
+ALTER TABLE "AgendaItem" ADD COLUMN "confidentiality" TEXT NOT NULL DEFAULT 'INTERNAL';
+ALTER TABLE "AgendaItem" ADD COLUMN "secretaryNotes" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "AgendaItem" ADD COLUMN "sortOrder" INTEGER NOT NULL DEFAULT 0;
+UPDATE "AgendaItem" SET "summary" = "decisionSummary", "sortOrder" = "itemNumber";
+CREATE INDEX "AgendaItem_meetingId_sortOrder_idx" ON "AgendaItem"("meetingId", "sortOrder");
+CREATE UNIQUE INDEX "AgendaDocument_agendaItemId_documentId_key" ON "AgendaDocument"("agendaItemId", "documentId");

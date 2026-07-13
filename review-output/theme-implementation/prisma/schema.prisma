@@ -1,0 +1,733 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SYSTEM_ADMIN
+  COMPANY_SECRETARY
+  BOARD_CHAIRMAN
+  DIRECTOR
+  COMMITTEE_MEMBER
+  DEPARTMENT_USER
+  ARCHIVE_USER
+  AUDITOR
+}
+
+enum DeviceStatus {
+  TRUSTED
+  UNTRUSTED
+  REVOKED
+}
+
+enum ConfidentialityLevel {
+  PUBLIC
+  INTERNAL
+  RESTRICTED
+  CONFIDENTIAL
+  HIGHLY_CONFIDENTIAL
+}
+
+enum MemoStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_SECRETARY_REVIEW
+  RETURNED_FOR_CORRECTION
+  CHAIRMAN_APPROVAL_PENDING
+  APPROVED
+  REJECTED
+  MARKED_FOR_BOARD_MEETING
+  ARCHIVED
+}
+
+enum DocumentStatus {
+  DRAFT
+  UNDER_REVIEW
+  APPROVED
+  FINAL_LOCKED
+  ARCHIVED
+}
+
+enum OcrStatus {
+  PENDING
+  PROCESSED
+  VERIFIED
+}
+
+enum QcStatus {
+  PENDING
+  PASSED
+  FAILED
+}
+
+enum RetentionStatus {
+  PERMANENT
+  LONG_TERM_ARCHIVE
+  LEGAL_HOLD
+  ACTIVE_RECORD
+  SUPERSEDED
+  DISPOSAL_ELIGIBLE
+}
+
+enum MeetingType {
+  BOARD_MEETING
+  AGM
+  COMMITTEE_MEETING
+  SPECIAL_MEETING
+  EMERGENCY_MEETING
+}
+
+enum MeetingStatus {
+  DRAFT
+  AGENDA_PREPARED
+  AGENDA_APPROVED
+  BOARD_PACK_PUBLISHED
+  MEETING_HELD
+  MINUTES_DRAFTED
+  MINUTES_SUBMITTED
+  MINUTES_APPROVED
+  RESOLUTIONS_PUBLISHED
+  ARCHIVED
+}
+
+enum MinutesStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  RETURNED
+  APPROVED
+  LOCKED
+  ARCHIVED
+}
+
+enum ResolutionStatus {
+  DRAFT
+  APPROVED
+  PUBLISHED
+  IMPLEMENTED
+  SUPERSEDED
+  CANCELLED
+}
+
+enum ActionStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  OVERDUE
+  CLOSED
+}
+
+enum AccessStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+  REVOKED
+}
+
+enum PermissionEffect {
+  ALLOW
+  DENY
+}
+
+enum AppearanceTheme {
+  EXECUTIVE_NAVY
+  BCB_EMERALD
+  HERITAGE_BURGUNDY
+}
+
+model User {
+  id                                  String                       @id
+  email                               String                       @unique
+  name                                String
+  role                                Role
+  department                          String?
+  passwordHash                        String
+  status                              String                       @default("Active")
+  createdAt                           DateTime                     @default(now())
+  updatedAt                           DateTime                     @updatedAt
+  sessions                            Session[]
+  devices                             Device[]
+  loginHistory                        LoginHistory[]
+  memosSubmitted                      Memo[]                       @relation("MemoSubmittedBy")
+  memosReviewed                       MemoHistory[]                @relation("MemoHistoryActor")
+  comments                            MemoComment[]                @relation("MemoCommentAuthor")
+  documentsUploaded                   Document[]                   @relation("DocumentUploadedBy")
+  documentsApproved                   Document[]                   @relation("DocumentApprovedBy")
+  secureDocumentViewSessions          SecureDocumentViewSession[]
+  meetingAttendances                  MeetingAttendee[]
+  notifications                       Notification[]
+  accessRequests                      AccessRequest[]              @relation("AccessRequestUser")
+  approvedRequests                    AccessRequest[]              @relation("AccessRequestApprover")
+  actionItems                         ActionItem[]                 @relation("ResponsibleUser")
+  committeeMemberships                CommitteeMember[]
+  chairedCommittees                   Committee[]                  @relation("CommitteeChair")
+  committeeSecretaries                Committee[]                  @relation("CommitteeSecretary")
+  draftedMinutes                      Minute[]                     @relation("MinutesDrafter")
+  approvedMinutes                     Minute[]                     @relation("MinutesApprover")
+  readAcknowledgments                 ReadAcknowledgment[]
+  publishedBoardPacks                 BoardPack[]                  @relation("BoardPackPublisher")
+  permissionOverrides                 UserPermissionOverride[]
+  moduleVisibilityOverrides           ModuleVisibility[]
+  dashboardWidgetVisibilityOverrides  DashboardWidgetVisibility[]
+  documentCategoryPermissionOverrides DocumentCategoryPermission[]
+  watermarkPolicyOverrides            WatermarkPolicy[]
+  appearancePreference                UserAppearancePreference?
+  appearanceSettingsUpdated           PortalAppearanceSetting[]    @relation("AppearanceSettingsUpdatedBy")
+}
+
+model Permission {
+  id              String                   @id
+  resource        String
+  action          String
+  description     String
+  sensitive       Boolean                  @default(false)
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  rolePermissions RolePermission[]
+  userOverrides   UserPermissionOverride[]
+
+  @@unique([resource, action])
+  @@index([resource])
+}
+
+model RolePermission {
+  id           String           @id
+  role         Role
+  permissionId String
+  effect       PermissionEffect
+  createdAt    DateTime         @default(now())
+  permission   Permission       @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([role, permissionId])
+  @@index([role])
+}
+
+model UserPermissionOverride {
+  id           String           @id
+  userId       String
+  permissionId String
+  effect       PermissionEffect
+  reason       String?
+  createdAt    DateTime         @default(now())
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission   Permission       @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permissionId])
+  @@index([userId])
+}
+
+model ModuleVisibility {
+  id        String           @id
+  moduleKey String
+  role      Role?
+  userId    String?
+  effect    PermissionEffect
+  reason    String?
+  createdAt DateTime         @default(now())
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([role, moduleKey])
+  @@unique([userId, moduleKey])
+  @@index([moduleKey])
+}
+
+model DashboardWidgetVisibility {
+  id        String           @id
+  widgetKey String
+  role      Role?
+  userId    String?
+  effect    PermissionEffect
+  reason    String?
+  createdAt DateTime         @default(now())
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([role, widgetKey])
+  @@unique([userId, widgetKey])
+  @@index([widgetKey])
+}
+
+model DocumentCategoryPermission {
+  id        String           @id
+  category  String
+  action    String
+  role      Role?
+  userId    String?
+  effect    PermissionEffect
+  reason    String?
+  createdAt DateTime         @default(now())
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([role, category, action])
+  @@unique([userId, category, action])
+  @@index([category, action])
+}
+
+model WatermarkPolicy {
+  id               String   @id
+  category         String
+  role             Role?
+  userId           String?
+  enabled          Boolean  @default(true)
+  includeName      Boolean  @default(true)
+  includeRole      Boolean  @default(true)
+  includeTimestamp Boolean  @default(true)
+  includeIpAddress Boolean  @default(true)
+  includeDeviceId  Boolean  @default(true)
+  opacity          Int      @default(28)
+  density          Int      @default(18)
+  reason           String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([role, category])
+  @@unique([userId, category])
+  @@index([category])
+}
+
+model PortalAppearanceSetting {
+  id                      String          @id
+  systemDefaultTheme      AppearanceTheme @default(EXECUTIVE_NAVY)
+  allowUserThemeSelection Boolean         @default(true)
+  updatedById             String?
+  updatedAt               DateTime        @updatedAt
+  updatedBy               User?           @relation("AppearanceSettingsUpdatedBy", fields: [updatedById], references: [id])
+}
+
+model RoleAppearanceSetting {
+  role         Role            @id
+  defaultTheme AppearanceTheme
+  updatedAt    DateTime        @updatedAt
+}
+
+model UserAppearancePreference {
+  userId        String          @id
+  selectedTheme AppearanceTheme
+  updatedAt     DateTime        @updatedAt
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id           String   @id
+  sessionToken String   @unique
+  userId       String
+  deviceId     String
+  ipAddress    String
+  browser      String
+  mfaVerified  Boolean  @default(false)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  lastSeenAt   DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Device {
+  id         String       @id
+  deviceId   String       @unique
+  userId     String
+  label      String
+  status     DeviceStatus @default(TRUSTED)
+  ipAddress  String
+  browser    String
+  lastSeenAt DateTime     @default(now())
+  createdAt  DateTime     @default(now())
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LoginHistory {
+  id        String   @id
+  userId    String?
+  email     String
+  result    String
+  ipAddress String
+  deviceId  String?
+  browser   String
+  remarks   String?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Committee {
+  id            String            @id
+  code          String            @unique
+  name          String
+  chairpersonId String?
+  secretaryId   String?
+  status        String
+  description   String
+  createdAt     DateTime          @default(now())
+  chairperson   User?             @relation("CommitteeChair", fields: [chairpersonId], references: [id])
+  secretary     User?             @relation("CommitteeSecretary", fields: [secretaryId], references: [id])
+  members       CommitteeMember[]
+  meetings      Meeting[]
+  documents     Document[]
+  memos         Memo[]
+}
+
+model CommitteeMember {
+  id          String    @id
+  committeeId String
+  userId      String
+  roleLabel   String
+  committee   Committee @relation(fields: [committeeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Memo {
+  id                    String               @id
+  memoId                String               @unique
+  title                 String
+  originatingDepartment String
+  submittedById         String
+  documentType          String
+  confidentiality       ConfidentialityLevel
+  supportingAttachments String
+  requestedDecision     String
+  relatedCommitteeId    String?
+  relatedMeetingId      String?
+  status                MemoStatus
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  submittedBy           User                 @relation("MemoSubmittedBy", fields: [submittedById], references: [id])
+  relatedCommittee      Committee?           @relation(fields: [relatedCommitteeId], references: [id])
+  relatedMeeting        Meeting?             @relation(fields: [relatedMeetingId], references: [id])
+  histories             MemoHistory[]
+  comments              MemoComment[]
+  agendaItems           AgendaItem[]
+}
+
+model MemoHistory {
+  id        String     @id
+  memoId    String
+  actorId   String
+  status    MemoStatus
+  comment   String
+  createdAt DateTime   @default(now())
+  memo      Memo       @relation(fields: [memoId], references: [id], onDelete: Cascade)
+  actor     User       @relation("MemoHistoryActor", fields: [actorId], references: [id])
+}
+
+model MemoComment {
+  id        String   @id
+  memoId    String
+  authorId  String
+  comment   String
+  createdAt DateTime @default(now())
+  memo      Memo     @relation(fields: [memoId], references: [id], onDelete: Cascade)
+  author    User     @relation("MemoCommentAuthor", fields: [authorId], references: [id])
+}
+
+model Document {
+  id                    String                      @id
+  documentId            String                      @unique
+  title                 String
+  documentType          String
+  year                  Int
+  officialDate          DateTime
+  meetingType           String?
+  committeeId           String?
+  departmentOffice      String
+  confidentiality       ConfidentialityLevel
+  uploadedById          String
+  approvedById          String?
+  version               String
+  keywords              String
+  physicalFileReference String
+  retentionStatus       RetentionStatus
+  status                DocumentStatus
+  ocrStatus             OcrStatus
+  qcStatus              QcStatus
+  accessExpiryDate      DateTime?
+  fileName              String?
+  filePath              String?
+  simulatedOcrText      String
+  isFinalLocked         Boolean                     @default(false)
+  createdAt             DateTime                    @default(now())
+  updatedAt             DateTime                    @updatedAt
+  committee             Committee?                  @relation(fields: [committeeId], references: [id])
+  uploadedBy            User                        @relation("DocumentUploadedBy", fields: [uploadedById], references: [id])
+  approvedBy            User?                       @relation("DocumentApprovedBy", fields: [approvedById], references: [id])
+  versions              DocumentVersion[]
+  agendaLinks           AgendaDocument[]
+  accessRequests        AccessRequest[]
+  archiveRecords        ArchiveRecord[]
+  resolutions           Resolution[]
+  actionItems           ActionItem[]
+  readAcknowledgments   ReadAcknowledgment[]
+  secureViewSessions    SecureDocumentViewSession[]
+}
+
+model SecureDocumentViewSession {
+  id             String    @id
+  publicTraceId  String    @unique
+  documentId     String
+  userId         String
+  authSessionId  String
+  sourceType     String
+  sourceId       String?
+  deviceId       String
+  ipAddress      String
+  role           String
+  status         String    @default("ACTIVE")
+  watermarkJson  String
+  policyJson     String
+  expiresAt      DateTime
+  lastAccessedAt DateTime  @default(now())
+  expiryLoggedAt DateTime?
+  createdAt      DateTime  @default(now())
+  document       Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+  @@index([userId])
+  @@index([publicTraceId, authSessionId])
+}
+
+model DocumentVersion {
+  id         String   @id
+  documentId String
+  version    String
+  fileName   String
+  changeNote String
+  createdAt  DateTime @default(now())
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model Meeting {
+  id              String               @id
+  meetingCode     String               @unique
+  title           String
+  meetingType     MeetingType
+  date            DateTime
+  time            String
+  venueOnlineLink String
+  confidentiality ConfidentialityLevel
+  status          MeetingStatus
+  committeeId     String?
+  timelineJson    String
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  committee       Committee?           @relation(fields: [committeeId], references: [id])
+  attendees       MeetingAttendee[]
+  agendaItems     AgendaItem[]
+  boardPacks      BoardPack[]
+  minutes         Minute[]
+  memos           Memo[]
+  resolutions     Resolution[]
+  actionItems     ActionItem[]
+}
+
+model MeetingAttendee {
+  id        String  @id
+  meetingId String
+  userId    String
+  status    String
+  meeting   Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AgendaItem {
+  id                  String               @id
+  meetingId           String
+  itemNumber          Int
+  title               String
+  ownerUserId         String?
+  status              String
+  memoId              String?
+  decisionSummary     String
+  meeting             Meeting              @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  memo                Memo?                @relation(fields: [memoId], references: [id])
+  documents           AgendaDocument[]
+  readAcknowledgments ReadAcknowledgment[]
+  resolutions         Resolution[]
+  actionItems         ActionItem[]
+}
+
+model AgendaDocument {
+  id           String     @id
+  agendaItemId String
+  documentId   String
+  agendaItem   AgendaItem @relation(fields: [agendaItemId], references: [id], onDelete: Cascade)
+  document     Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model BoardPack {
+  id                  String               @id
+  packCode            String               @unique
+  meetingId           String
+  status              String
+  publishedAt         DateTime?
+  publishedById       String?
+  historyJson         String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  meeting             Meeting              @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  publishedBy         User?                @relation("BoardPackPublisher", fields: [publishedById], references: [id])
+  readAcknowledgments ReadAcknowledgment[]
+}
+
+model ReadAcknowledgment {
+  id           String      @id
+  userId       String
+  documentId   String?
+  boardPackId  String?
+  agendaItemId String?
+  type         String
+  page         Int?
+  sessionId    String?
+  createdAt    DateTime    @default(now())
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document     Document?   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  boardPack    BoardPack?  @relation(fields: [boardPackId], references: [id], onDelete: Cascade)
+  agendaItem   AgendaItem? @relation(fields: [agendaItemId], references: [id], onDelete: Cascade)
+}
+
+model Minute {
+  id             String        @id
+  minutesCode    String        @unique
+  meetingId      String
+  status         MinutesStatus
+  draftedById    String
+  approvedById   String?
+  version        String
+  attendanceJson String
+  discussionJson String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  meeting        Meeting       @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  draftedBy      User          @relation("MinutesDrafter", fields: [draftedById], references: [id])
+  approvedBy     User?         @relation("MinutesApprover", fields: [approvedById], references: [id])
+}
+
+model Resolution {
+  id                String           @id
+  resolutionNumber  String           @unique
+  meetingId         String
+  agendaItemId      String?
+  title             String
+  decisionSummary   String
+  responsiblePerson String
+  dateApproved      DateTime
+  status            ResolutionStatus
+  documentId        String?
+  actionItemId      String?
+  timelineJson      String
+  meeting           Meeting          @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  agendaItem        AgendaItem?      @relation(fields: [agendaItemId], references: [id])
+  document          Document?        @relation(fields: [documentId], references: [id])
+  actionItem        ActionItem?      @relation("ResolutionAction", fields: [actionItemId], references: [id])
+  actionItems       ActionItem[]     @relation("ActionResolution")
+}
+
+model ActionItem {
+  id                   String       @id
+  actionCode           String       @unique
+  title                String
+  meetingId            String?
+  agendaItemId         String?
+  resolutionId         String?
+  responsibleUserId    String
+  departmentCommittee  String
+  dueDate              DateTime
+  status               ActionStatus
+  completionNote       String?
+  supportingDocumentId String?
+  closureApprovedById  String?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  meeting              Meeting?     @relation(fields: [meetingId], references: [id])
+  agendaItem           AgendaItem?  @relation(fields: [agendaItemId], references: [id])
+  resolution           Resolution?  @relation("ActionResolution", fields: [resolutionId], references: [id])
+  generatedResolution  Resolution[] @relation("ResolutionAction")
+  responsibleUser      User         @relation("ResponsibleUser", fields: [responsibleUserId], references: [id])
+  supportingDocument   Document?    @relation(fields: [supportingDocumentId], references: [id])
+}
+
+model AccessRequest {
+  id                      String       @id
+  requestCode             String       @unique
+  documentId              String
+  requestedById           String
+  reason                  String
+  requestedAccessDuration String
+  status                  AccessStatus
+  approvedById            String?
+  expiryDate              DateTime?
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  document                Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  requestedBy             User         @relation("AccessRequestUser", fields: [requestedById], references: [id])
+  approvedBy              User?        @relation("AccessRequestApprover", fields: [approvedById], references: [id])
+}
+
+model ArchiveRecord {
+  id                    String    @id
+  archiveCode           String    @unique
+  documentId            String?
+  title                 String
+  year                  Int
+  category              String
+  ocrStatus             OcrStatus
+  qcStatus              QcStatus
+  physicalFileReference String
+  batchNumber           String
+  metadataComplete      Int
+  finalLocked           Boolean   @default(false)
+  simulatedOcrText      String
+  createdAt             DateTime  @default(now())
+  document              Document? @relation(fields: [documentId], references: [id])
+}
+
+model Notification {
+  id         String   @id
+  userId     String
+  type       String
+  title      String
+  body       String
+  channelLog String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id            String   @id
+  sequence      Int      @unique
+  userId        String?
+  userName      String
+  role          String
+  actionType    String
+  objectType    String
+  objectId      String?
+  documentId    String?
+  previousValue String?
+  newValue      String?
+  ipAddress     String
+  deviceId      String
+  browser       String
+  sessionId     String
+  result        String
+  remarks       String
+  hash          String
+  previousHash  String
+  createdAt     DateTime @default(now())
+}
+
+model BackupStatus {
+  id                  String   @id
+  databaseBackupAt    DateTime
+  documentBackupAt    DateTime
+  auditBackupAt       DateTime
+  backupStatus        String
+  restoreTestStatus   String
+  edgeNodeSyncStatus  String
+  storageUsagePercent Int
+  drReadinessScore    Int
+  retentionSummary    String
+  createdAt           DateTime @default(now())
+}

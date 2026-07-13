@@ -1,0 +1,43 @@
+node_modules
+.next
+dev.db
+dev.db-journal
+.env.local
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/push-subscriptions.json
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/swe-worker-*.js
+public/swe-worker-*.js.map
+# Capacitor / store native projects
+# Keep generated android/ in repo for Play/App store scaffolding; ignore secrets & build outputs
+ios/
+store/android-twa/app/
+store/android-twa/.idea/
+store/android-twa/android-keystore.jks
+store/android-twa/*.apk
+store/android-twa/*.aab
+android/app/build/
+android/.gradle/
+android/build/
+android/local.properties
+*.keystore
+*.jks
+# Generated static asset links copy (API route is source of truth)
+public/.well-known/assetlinks.json
+
+# Cursor IDE
+.cursor/
+
+# Local / reference images (keep committed public app assets)
+*.jpg
+*.jpeg
+*.png
+*.webp
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.webp

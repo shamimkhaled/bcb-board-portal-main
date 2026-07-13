@@ -1,0 +1,16 @@
+
+> bcb-directors-affairs-automation-platform@0.1.0 dev
+> next dev -p 3005 -p 3006
+
+   ▲ Next.js 15.5.19
+   - Local:        http://localhost:3006
+   - Network:      http://10.20.20.101:3006
+   - Environments: .env
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 2.4s
+ ○ Compiling /login ...
+ ✓ Compiled /login in 4.2s (631 modules)
+ GET /login 200 in 5367ms

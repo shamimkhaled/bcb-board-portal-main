@@ -1,0 +1,51 @@
+import {
+  Archive,
+  Bell,
+  Boxes,
+  ClipboardCheck,
+  DatabaseBackup,
+  FileArchive,
+  FileCheck2,
+  FileText,
+  Gauge,
+  Landmark,
+  LayoutDashboard,
+  ListChecks,
+  LockKeyhole,
+  NotebookTabs,
+  ScrollText,
+  Search,
+  Settings,
+  ShieldCheck,
+  Signature,
+  UserCircle,
+  UserCheck,
+  UsersRound
+} from "lucide-react";
+
+export const navItems = [
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, moduleKey: "dashboard" },
+  { href: "/memo-workflow", label: "Memo Workflow", icon: FileCheck2, moduleKey: "memo-workflow" },
+  { href: "/meetings", label: "Meetings", icon: Landmark, moduleKey: "meetings" },
+  { href: "/board-packs", label: "Board Packs", icon: Boxes, moduleKey: "board-packs" },
+  { href: "/documents", label: "Documents", icon: FileText, moduleKey: "documents" },
+  { href: "/archive", label: "Archive", icon: FileArchive, moduleKey: "archive" },
+  { href: "/minutes", label: "Minutes", icon: NotebookTabs, moduleKey: "minutes" },
+  { href: "/resolutions", label: "Resolutions", icon: Signature, moduleKey: "resolutions" },
+  { href: "/action-items", label: "Action Items", icon: ListChecks, moduleKey: "action-items" },
+  { href: "/committees", label: "Committees", icon: UsersRound, moduleKey: "committees" },
+  { href: "/access-requests", label: "Access Requests", icon: UserCheck, moduleKey: "access-requests" },
+  { href: "/notifications", label: "Notifications", icon: Bell, moduleKey: "notifications" },
+  { href: "/reports", label: "Reports", icon: ClipboardCheck, moduleKey: "reports" },
+  { href: "/backup-dr", label: "Backup & DR", icon: DatabaseBackup, moduleKey: "backup-dr" },
+  { href: "/admin", label: "Admin", icon: Settings, moduleKey: "admin" },
+  { href: "/audit-logs", label: "Audit Logs", icon: ShieldCheck, moduleKey: "audit-logs" },
+  { href: "/demo-journey", label: "Demo Journey", icon: Gauge, moduleKey: "demo-journey" },
+  { href: "/search", label: "Search", icon: Search, moduleKey: "search" },
+  { href: "/profile/appearance", label: "Profile", icon: UserCircle, moduleKey: "profile" },
+  { href: "/documents/doc-001", label: "Secure Viewer", icon: LockKeyhole, moduleKey: "documents", secondary: true },
+  { href: "/archive", label: "Archive Pilot", icon: Archive, moduleKey: "archive", secondary: true },
+  { href: "/reports", label: "Executive Reports", icon: ScrollText, moduleKey: "reports", secondary: true }
+] as const;
+
+export type NavItem = (typeof navItems)[number];

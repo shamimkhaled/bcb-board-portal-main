@@ -1,0 +1,73 @@
+{
+  "packageId": "bd.org.bcb.directors.portal.twa",
+  "host": "portal.bcb.example",
+  "name": "BCB Directors' Affairs",
+  "launcherName": "BCB Portal",
+  "display": "standalone",
+  "themeColor": "#006A4E",
+  "themeColorDark": "#006A4E",
+  "navigationColor": "#006A4E",
+  "navigationColorDark": "#006A4E",
+  "navigationDividerColor": "#006A4E",
+  "navigationDividerColorDark": "#006A4E",
+  "backgroundColor": "#006A4E",
+  "enableNotifications": true,
+  "startUrl": "/dashboard",
+  "iconUrl": "https://portal.bcb.example/icons/icon-512x512.png",
+  "maskableIconUrl": "https://portal.bcb.example/icons/icon-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android-keystore.jks",
+    "alias": "bcb-portal"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "Meetings",
+      "shortName": "Meetings",
+      "url": "/meetings",
+      "chosenIconUrl": "https://portal.bcb.example/icons/icon-192x192.png"
+    },
+    {
+      "name": "Search",
+      "shortName": "Search",
+      "url": "/search",
+      "chosenIconUrl": "https://portal.bcb.example/icons/icon-192x192.png"
+    },
+    {
+      "name": "Notifications",
+      "shortName": "Alerts",
+      "url": "/notifications",
+      "chosenIconUrl": "https://portal.bcb.example/icons/icon-192x192.png"
+    }
+  ],
+  "generatorApp": "bubblewrap",
+  "webManifestUrl": "https://portal.bcb.example/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableMinify": true,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "auto",
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://portal.bcb.example/",
+  "minSdkVersion": 21,
+  "shareTarget": {},
+  "displayOverride": []
+}

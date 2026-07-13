@@ -1,0 +1,261 @@
+{
+  "config": {
+    "argv": [
+      "/tmp/.mount_cursorLnjedj/usr/share/cursor/resources/app/resources/helpers/node",
+      "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/node_modules/@playwright/test/cli.js",
+      "test",
+      "--project=chromium-desktop",
+      "--grep",
+      "@smoke"
+    ],
+    "configFile": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/playwright.config.ts",
+    "rootDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests/reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium-desktop",
+        "name": "chromium-desktop",
+        "testDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests/reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium-tablet",
+        "name": "chromium-tablet",
+        "testDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests/reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium-mobile",
+        "name": "chromium-mobile",
+        "testDir": "/home/shamimkhaled/bcb-portal-app/bcb-board-portal-main/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "tests/reports/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "tests/reports/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e/agenda-builder.spec.ts",
+      "file": "e2e/agenda-builder.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@smoke Secretary can open agenda form and validation is enforced",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-desktop",
+              "projectName": "chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8675,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-13T15:47:14.734Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "network-errors",
+                      "contentType": "text/plain",
+                      "body": "R0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZW1vLXdvcmtmbG93P19yc2M9b0ZBNlU2NHNpLW5ENFJsTyBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVldGluZ3M/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kb2N1bWVudHM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9ib2FyZC1wYWNrcz9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2FyY2hpdmU/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9taW51dGVzP19yc2M9b0ZBNlU2NHNpLW5ENFJsTyBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvcmVzb2x1dGlvbnM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz11dFFvcGFaeVZiZlNHOWgyIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1QQlRycm1COVU0RVA2UEtnIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9wcm9maWxlL2FwcGVhcmFuY2U/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9hY3Rpb24taXRlbXM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9fbmV4dC9pbWFnZT91cmw9JTJGYmNiLWxvZ28ucG5nJnc9NjQmcT03NSBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvX25leHQvaW1hZ2U/dXJsPSUyRmdvdmVybmFuY2UtYm9hcmRyb29tLnBuZyZ3PTEwODAmcT03NSBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVtby13b3JrZmxvdz9fcnNjPUY5TGgzalB5MW5WNVp4NW4gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L21lZXRpbmdzP19yc2M9RjlMaDNqUHkxblY1Wng1biBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvYm9hcmQtcGFja3M/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kb2N1bWVudHM/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9hcmNoaXZlP19yc2M9RjlMaDNqUHkxblY1Wng1biBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWludXRlcz9fcnNjPUY5TGgzalB5MW5WNVp4NW4gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L3Jlc29sdXRpb25zP19yc2M9RjlMaDNqUHkxblY1Wng1biBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVldGluZ3MvUUEtMjAyNjA3MTMxNTQzMzYtbWVldGluZy1kcmFmdC9hdHRlbmRlZXM/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0L2JvYXJkLXBhY2s/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0L2VkaXQ/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0L3B1Ymxpc2g/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQ="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "3c1d765a96f025cb54a9-4413e8128c58d08ae8f8",
+          "file": "e2e/agenda-builder.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "e2e/smoke.spec.ts",
+      "file": "e2e/smoke.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@smoke login, dashboard, meetings and agenda builder",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-desktop",
+              "projectName": "chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7708,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-13T15:47:24.069Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "network-errors",
+                      "contentType": "text/plain",
+                      "body": "R0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz11dFFvcGFaeVZiZlNHOWgyIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1QQlRycm1COVU0RVA2UEtnIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZW1vLXdvcmtmbG93P19yc2M9b0ZBNlU2NHNpLW5ENFJsTyBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVldGluZ3M/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9ib2FyZC1wYWNrcz9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2RvY3VtZW50cz9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2Rhc2hib2FyZD9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2FyY2hpdmU/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9yZXNvbHV0aW9ucz9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L21pbnV0ZXM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZW1vLXdvcmtmbG93P19yc2M9d0JocWxzQ1BVd29BYVJuWSBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvYm9hcmQtcGFja3M/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kb2N1bWVudHM/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9taW51dGVzP19yc2M9d0JocWxzQ1BVd29BYVJuWSBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvcmVzb2x1dGlvbnM/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0P19yc2M9d0JocWxzQ1BVd29BYVJuWSBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVldGluZ3MvUUEtMjAyNjA3MTMxNTQzMzYtbWVldGluZy1kcmFmdC9hZ2VuZGE/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0L2JvYXJkLXBhY2s/X3JzYz13QmhxbHNDUFV3b0FhUm5ZIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncy9RQS0yMDI2MDcxMzE1NDMzNi1tZWV0aW5nLWRyYWZ0L2F0dGVuZGVlcz9fcnNjPXdCaHFsc0NQVXdvQWFSblkgbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2Rhc2hib2FyZD9fcnNjPUY5TGgzalB5MW5WNVp4NW4gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L21lbW8td29ya2Zsb3c/X3JzYz1GOUxoM2pQeTFuVjVaeDVuIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZWV0aW5ncz9fcnNjPUY5TGgzalB5MW5WNVp4NW4gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2JvYXJkLXBhY2tzP19yc2M9RjlMaDNqUHkxblY1Wng1biBuZXQ6OkVSUl9BQk9SVEVE"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aa58ad17b2d44b8d86cc-cf4d43064ab942190df3",
+          "file": "e2e/smoke.spec.ts",
+          "line": 4,
+          "column": 5
+        },
+        {
+          "title": "@smoke health and authorised audit page",
+          "ok": true,
+          "tags": [
+            "smoke"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-desktop",
+              "projectName": "chromium-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4812,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-13T15:47:31.867Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "network-errors",
+                      "contentType": "text/plain",
+                      "body": "R0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz11dFFvcGFaeVZiZlNHOWgyIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1QQlRycm1COVU0RVA2UEtnIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kb2N1bWVudHM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9kYXNoYm9hcmQ/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9tZW1vLXdvcmtmbG93P19yc2M9b0ZBNlU2NHNpLW5ENFJsTyBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvbWVldGluZ3M/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9ib2FyZC1wYWNrcz9fcnNjPW9GQTZVNjRzaS1uRDRSbE8gbmV0OjpFUlJfQUJPUlRFRApHRVQgaHR0cDovLzEyNy4wLjAuMTozMDE1L2FyY2hpdmU/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9taW51dGVzP19yc2M9b0ZBNlU2NHNpLW5ENFJsTyBuZXQ6OkVSUl9BQk9SVEVECkdFVCBodHRwOi8vMTI3LjAuMC4xOjMwMTUvcmVzb2x1dGlvbnM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9hY3Rpb24taXRlbXM/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQKR0VUIGh0dHA6Ly8xMjcuMC4wLjE6MzAxNS9wcm9maWxlL2FwcGVhcmFuY2U/X3JzYz1vRkE2VTY0c2ktbkQ0UmxPIG5ldDo6RVJSX0FCT1JURUQ="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aa58ad17b2d44b8d86cc-34dae7949946799b1c28",
+          "file": "e2e/smoke.spec.ts",
+          "line": 14,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-13T15:47:10.425Z",
+    "duration": 26695.42,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
