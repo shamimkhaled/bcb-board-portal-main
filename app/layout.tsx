@@ -11,7 +11,10 @@ import { getEffectiveTheme } from "@/lib/theme";
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap"
+  display: "swap",
+  // Avoid unused unicode-range preloads Chrome flags when only Latin UI is rendered.
+  preload: true,
+  adjustFontFallback: true
 });
 
 export const metadata: Metadata = {

@@ -4,6 +4,7 @@ import {
   OTP_CODE,
   PENDING_MFA_COOKIE,
   SESSION_COOKIE,
+  authCookieBaseOptions,
   decodePendingMfa,
   getRequestMeta,
   sessionExpiry
@@ -12,7 +13,14 @@ import { createAuditLog } from "@/lib/audit";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
-  const { otp } = (await request.json()) as { otp?: string };
+  let otp: string | undefined;
+  try {
+    const body = (await request.json()) as { otp?: string };
+    otp = typeof body.otp === "string" ? body.otp.trim() : undefined;
+  } catch {
+    return NextResponse.json({ error: "Invalid MFA payload." }, { status: 400 });
+  }
+
   const pending = decodePendingMfa(request.cookies.get(PENDING_MFA_COOKIE)?.value);
   const { ipAddress, browser } = getRequestMeta(request);
 
@@ -115,13 +123,13 @@ export async function POST(request: NextRequest) {
   });
 
   const response = NextResponse.json({ ok: true });
-  response.cookies.delete(PENDING_MFA_COOKIE);
+  response.cookies.set(PENDING_MFA_COOKIE, "", {
+    ...authCookieBaseOptions(request),
+    maxAge: 0
+  });
   response.cookies.set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 30 * 60,
-    path: "/"
+    ...authCookieBaseOptions(request),
+    maxAge: 30 * 60
   });
 
   return response;

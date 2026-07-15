@@ -33,7 +33,7 @@ export function PwaSplash() {
       aria-hidden="true"
     >
       <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white p-2 shadow-lg">
-        <Image src="/bcb-logo.png" alt="" width={64} height={64} className="h-16 w-16 object-contain" priority />
+        <Image src="/bcb-logo.png" alt="" width={64} height={64} className="h-16 w-16 object-contain" />
       </div>
       <p className="mt-4 text-lg font-bold tracking-tight">BCB Portal</p>
       <p className="mt-1 text-xs text-white/75">Directors&apos; Affairs</p>

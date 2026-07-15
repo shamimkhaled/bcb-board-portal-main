@@ -1,6 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { PENDING_MFA_COOKIE, encodePendingMfa, getRequestMeta, hashPassword, newDeviceId } from "@/lib/auth";
+import {
+  PENDING_MFA_COOKIE,
+  authCookieBaseOptions,
+  encodePendingMfa,
+  getRequestMeta,
+  hashPassword,
+  newDeviceId
+} from "@/lib/auth";
 import { createAuditLog } from "@/lib/audit";
 import { prisma } from "@/lib/prisma";
 
@@ -53,11 +60,8 @@ export async function POST(request: Request) {
       issuedAt: new Date().toISOString()
     }),
     {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 10 * 60,
-      path: "/"
+      ...authCookieBaseOptions(request),
+      maxAge: 10 * 60
     }
   );
 

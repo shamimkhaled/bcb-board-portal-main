@@ -84,6 +84,39 @@ export function sessionExpiry() {
   return new Date(Date.now() + SESSION_MINUTES * 60 * 1000);
 }
 
+/**
+ * Use Secure cookies only on real HTTPS. Production builds served over
+ * http://localhost (npm run start) must not set Secure, or browsers drop
+ * the MFA pending cookie and /api/auth/mfa returns 400.
+ */
+export function shouldUseSecureCookies(request: Request) {
+  if (process.env.COOKIE_SECURE === "true") return true;
+  if (process.env.COOKIE_SECURE === "false") return false;
+
+  try {
+    const url = new URL(request.url);
+    const host = url.hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".local")) {
+      return false;
+    }
+
+    const forwarded = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim().toLowerCase();
+    if (forwarded) return forwarded === "https";
+    return url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export function authCookieBaseOptions(request: Request) {
+  return {
+    httpOnly: true as const,
+    sameSite: "lax" as const,
+    secure: shouldUseSecureCookies(request),
+    path: "/"
+  };
+}
+
 export async function getCurrentAuth(): Promise<AuthContext | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;

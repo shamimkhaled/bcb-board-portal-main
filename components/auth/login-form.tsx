@@ -33,29 +33,39 @@ export function LoginForm() {
     setError("");
 
     const endpoint = mfaRequired ? "/api/auth/mfa" : "/api/auth/login";
-    const body = mfaRequired ? { otp } : { email, password };
+    const body = mfaRequired ? { otp: otp.trim() } : { email: email.trim(), password };
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    const payload = await response.json();
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body)
+      });
+      const payload = (await response.json().catch(() => ({}))) as { error?: string; mfaRequired?: boolean };
 
-    setLoading(false);
+      if (!response.ok) {
+        if (mfaRequired && response.status === 400) {
+          setMfaRequired(false);
+          setError(payload.error || "MFA session expired. Enter your password again.");
+        } else {
+          setError(payload.error || "Sign in failed.");
+        }
+        return;
+      }
 
-    if (!response.ok) {
-      setError(payload.error || "Sign in failed.");
-      return;
+      if (payload.mfaRequired) {
+        setMfaRequired(true);
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Network error. Check your connection and try again.");
+    } finally {
+      setLoading(false);
     }
-
-    if (payload.mfaRequired) {
-      setMfaRequired(true);
-      return;
-    }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
